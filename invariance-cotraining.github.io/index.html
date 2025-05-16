@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="Invariance Co-Training for Robot Visual Generalization">
+  <meta name="keywords" content="Robot Learning">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Invariance Co-Training for Robot Visual Generalization</title>
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <link rel="icon" href="./static/images/favicon.svg">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/bulma-carousel.min.js"></script>
+  <script src="./static/js/bulma-slider.min.js"></script>
+  <script src="./static/js/index.js"></script>
+  <style>
+  body {font-family: Arial;}
+
+  /* Style the tab */
+  .tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+  }
+
+  /* Style the buttons inside the tab */
+  .tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+  }
+
+  /* Change background color of buttons on hover */
+  .tab button:hover {
+    background-color: #ddd;
+  }
+
+  /* Create an active/current tablink class */
+  .tab button.active {
+    background-color: #ccc;
+  }
+
+  /* Style the tab content */
+  .tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+  }
+
+  /* Style the close button */
+  .topright {
+    float: right;
+    cursor: pointer;
+    font-size: 28px;
+  }
+
+  .topright:hover {color: red;}
+
+.gif-row {
+  display: flex;
+  justify-content: center;     /* Center horizontally */
+  align-items: center;         /* Align vertically if heights vary */
+  gap: 30px;                   /* Space between GIFs */
+  flex-wrap: wrap;             /* Allow wrapping on smaller screens */
+  padding: 20px 0;
+}
+
+.gif-item {
+  width: 300px;
+  height: auto;
+  border-radius: 8px;          /* Optional: rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: subtle shadow */
+}
+
+
+.video {
+    position: relative;
+    padding-bottom: 35%;
+}
+.video iframe {
+    width: 100%;
+    height: 100%;
+}
+
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    display: block
+}
+
+.video-layout {
+    max-width: 500px;
+    border: 1px solid green;
+}
+#vid-left {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+}
+#vid-leftmid {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+}
+#vid-mid {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+}
+#vid-rightmid {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+}
+#vid-right {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+}
+
+#vid-onemid {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+    float: left; 
+    margin-right: 40%;
+    margin-left: 40%;
+}
+
+
+#vid-twoleft {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+    float: left; 
+    margin-right: 20%;
+    margin-left: 20%;
+}
+.videoequi {
+    position: relative;
+}
+#vid-tworight {
+    float: left;
+    padding:5px;
+    width:20%;
+    box-sizing:border-box;
+}
+#vid-twoleftequi {
+    float: left;
+    padding:5px;
+    width:49%;
+    box-sizing:border-box;
+    float: left; 
+    margin-right: 1%;
+    margin-left: 1%;
+}
+#vid-tworightequi {
+    float: left;
+    padding:5px;
+    width:49%;
+    box-sizing:border-box;
+}
+  </style>
+
+</head>
+<body>
+
+<!--
+<nav class="navbar" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+  <div class="navbar-menu">
+    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
+      <a class="navbar-item" href="https://keunhong.com">
+      <span class="icon">
+          <i class="fas fa-home"></i>
+      </span>
+      </a>
+
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">
+          More Research
+        </a>
+        <div class="navbar-dropdown">
+          <a class="navbar-item" href="https://hypernerf.github.io">
+            HyperNeRF
+          </a>
+          <a class="navbar-item" href="https://nerfies.github.io">
+            Nerfies
+          </a>
+          <a class="navbar-item" href="https://latentfusion.github.io">
+            LatentFusion
+          </a>
+          <a class="navbar-item" href="https://photoshape.github.io">
+            PhotoShape
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</nav>
+-->
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+          <h1 class="title is-1 publication-title">Invariance Co-Training for Robot Visual Generalization</h1>
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">
+              <a href="https://jonathanyang0127.github.io">Jonathan Yang</a><sup>1</sup>,</span>
+            <span class="author-block">
+            <span class="author-block">
+              <a href="https://ai.stanford.edu/~cbfinn/">Chelsea Finn</a><sup>1</sup>,
+            </span>
+            <span class="author-block">
+              <a href="https://dorsa.fyi">Dorsa Sadigh</a><sup>1</sup>,
+            </span>
+	</div>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block"><sup>1</sup>Stanford University</span>
+          </div>
+
+          <div class="column has-text-centered">
+            <div class="publication-links">
+              <!-- PDF Link. -->
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2402.19432"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fas fa-file-pdf"></i>
+                  </span>
+                  <span>Paper</span>
+                </a>
+              </span>
+	     <!--
+              <span class="link-block">
+                <a href="https://arxiv.org/abs/2011.12948"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+	     -->
+              <!-- Video Link. -->
+              <span class="link-block">
+                <a href="https://www.youtube.com/watch?v=ljZ48IoaPTY"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-youtube"></i>
+                  </span>
+                  <span>Video</span>
+                </a>
+              </span>
+              <!-- Code Link. -->
+              <span class="link-block">
+                <a href="https://github.com/JonathanYang0127/omnimimic/tree/release"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="fab fa-github"></i>
+                  </span>
+                  <span>Code</span>
+                  </a>
+              </span>
+              <!-- Dataset Link. -->
+             <!-- 
+	     <span class="link-block">
+                <a href="https://github.com/google/nerfies/releases/tag/0.1"
+                   class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                      <i class="far fa-images"></i>
+                  </span>
+                  <span>Data</span>
+                  </a>
+            </div>
+	    -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+	<!--
+	<video id="moma-video"
+                 controls
+		 autoplay
+                 muted
+                 preload
+                 playsinline
+                 width="100%">
+            <source src="./static/videos/teaser.mp4"
+                    type="video/mp4">
+          </video>
+	-->
+      <img src="./static/images/teaser.png"
+                 class="teaser-image"
+                 alt="Invariance Co-Training"/>
+      <h2 class="subtitle has-text-centered">
+	We train a 2D vision encoder that generalizes to new camera viewpoints, lighting conditions, and background clutter that leverages diverse synthetic images, large-scale open-source datasets, and videos of static scenes.
+	</h2>
+    </div>
+  </div>
+</section>
+
+
+<!--/
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Navigation Videos</h2>
+        </div>
+      </div>
+    </div>
+</section> 
+-->
+<section class="hero is-light is-small">
+  <div class="hero-body">
+     <video class="center" id="moma-video"
+                 controls
+		 autoplay
+                 muted
+                 preload
+                 playsinline
+                 width="40%">
+            <source src="./static/videos/main_video.mp4"
+                    type="video/mp4">
+          </video>
+  <!--  
+  <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+	<div class="item item-cluttered_grasp_compressed">
+          <video poster="" id="cluttered_grasp_compressed" autoplay controls muted loop playsinline height="50%">
+            <source src="./static/videos/cluttered_compressed.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shelf_manipulation_compressed">
+          <video poster="" id="shelf_manipulation_compressed" autoplay controls muted loop playsinline height="50%">
+            <source src="./static/videos/shelf_manip_compressed.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-bridge_thirdperson_compressed">
+          <video poster="" id="bridge_thirdperson_compressed" autoplay controls muted loop playsinline height="50%">
+            <source src="./static/videos/toy_kitchen_compressed.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-locobot5">
+          <video poster="" id="locobot5" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/locobot_first_floor_edited.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-locobot4">
+          <video poster="" id="locobot4" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/locobot_outside.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-locobot3">
+          <video poster="" id="locobot3" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/jackal_kitchen_edited.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-locobot2">
+          <video poster="" id="locobot2" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/jackal_first_floor_third_edited.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-locobot1">
+          <video poster="" id="locobot1" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/go1_outdoor.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-jackal1">
+          <video poster="" id="jackal1" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/go1_second_floor_edited.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-jackal2">
+          <video poster="" id="jackal2" autoplay controls muted loop playsinline height="100%">
+            <source src="./static/videos/drone_traj.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+    -->
+  </div>
+</section>
+
+<!--
+<section class="hero is-light is-small">
+  <div class="hero-body">
+    <div class="container">
+      <div id="results-carousel" class="carousel results-carousel">
+	<div class="item item-cluttered_grasp_compressed">
+          <video poster="" id="cluttered_grasp_compressed" autoplay controls muted loop playsinline height="50%">
+            <source src="./static/videos/cluttered_compressed.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-shelf_manipulation_compressed">
+          <video poster="" id="shelf_manipulation_compressed" autoplay controls muted loop playsinline height="50%">
+            <source src="./static/videos/shelf_manip_compressed.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <div class="item item-bridge_thirdperson_compressed">
+          <video poster="" id="bridge_thirdperson_compressed" autoplay controls muted loop playsinline height="50%">
+            <source src="./static/videos/toy_kitchen_compressed.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+-->
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <!-- Abstract. -->
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+	  Despite recent advancements, many large-scale robotic policies still remain sensitive to key sources of observational variation—such as changes in camera perspective, lighting, and the presence of distractor objects. We posit that the limited generalizability of these models arises from the substantial diversity required to robustly cover these quasistatic axes, coupled with the current scarcity of large-scale robotic datasets that exhibit rich variation across them.
+	  </p>
+	In this work, we propose to systematically examine what robots need to generalize across these challenging axes by introducing two key auxiliary tasks—state similarity and invariance to observational perturbations—applied to both demonstration data and static visual data. We then show that via these auxiliary tasks, leveraging both more-expensive robotic demonstration data and less-expensive, visually rich synthetic images generated from non-physics-based simulation (e.g., Unreal Engine) can lead to substantial increases in generalization to unseen camera viewpoints, lighting configurations, and distractor conditions.
+	</p>
+	<p>
+       Our results demonstrate that co-training on this diverse data improves performance by $18\%$ over existing generative augmentation methods.
+	</p>
+        </div>
+      </div>
+    </div>
+
+</section>
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+	<video id="moma-video"
+                 controls
+		 autoplay
+                 muted
+                 preload
+                 playsinline
+                 width="100%">
+            <source src="./static/videos/method_compressed.mp4"
+                    type="video/mp4">
+          </video>
+      <h2 class="subtitle has-text-centered">
+	We train a 2D vision encoder that generalizes to new camera viewpoints, lighting conditions, and background clutter that leverages diverse synthetic images, large-scale open-source datasets, and videos of static scenes.
+	</h2>
+    </div>
+  </div>
+</section>
+
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+        <div class="column is-full-width">
+	<!-- Re-rendering. -->
+        <h2 class="title is-3">Invariance Co-Training as Contrastive Learning</h2>
+        <div class="content has-text-justified">
+          <p>
+         We propose a contrastive co-training framework where the policy learns representations invariant to observational perturbations (e.g., viewpoint, lighting) while remaining sensitive to task-relevant state and goal changes. By distinguishing between semantically similar and dissimilar (state, goal) pairs across varying observational conditions, the model learns to align representations that matter for control. 
+	 </p>
+        </div>
+           <img src="./static/images/contrastive.png"
+                 class="teaser-image"
+                 alt="Invariance Co-Training as Contrastive Learning"/> 
+	</div>
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+  </div>
+</section>
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Generalization to Novel Manipulation Tasks</h2>
+        </div>
+      </div>
+        <div class="content has-text-justified">
+          <p>
+        Experimentally, our invariance co-training approach significantly outperforms baseline Behavioral Cloning, improving average success rates by approximately 40% across key variations. Furthermore, it yields 18\% higher success rates compared to variants relying only on simulation or generative models.  
+	</p>
+        </div>
+    </div>
+</section>
+
+
+<section class="hero is-light is-small">
+  <div class="hero-body">
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'Behavior Cloning')" id="defaultOpen">Behavior Cloning</button>
+  <button class="tablinks" onclick="openTab(event, 'Invariance Co-Training')">Invariance Co-Training</button>
+</div>
+
+
+
+<div id="Behavior Cloning" class="tabcontent" style="display: flex; justify-content: space-around;">
+  <div id="vid-left" style="display: flex; align-items: center; justify-content: center;">
+    <img src="./static/videos/Variations/aux-fail.gif" alt="aux-fail" width="300px" />
+  </div>
+  <div id="vid-mid" style="display: flex; align-items: center; justify-content: center;">
+    <img src="./static/videos/Variations/clutter_fail.gif" alt="clutter-fail" width="300px" />
+  </div>
+  <div id="vid-right" style="display: flex; align-items: center; justify-content: center;">
+    <img src="./static/videos/Variations/lighting_fail.gif" alt="lighting-fail" width="300px" />
+  </div>
+</div>
+
+<div id="Invariance Co-Training" class="tabcontent" style="display: flex; justify-content: space-around;">
+  <div id="vid-left" style="display: flex; align-items: center; justify-content: center;">
+    <img src="./static/videos/Variations/aux-success.gif" alt="aux-success" width="300px" />
+  </div>
+  <div id="vid-mid" style="display: flex; align-items: center; justify-content: center;">
+    <img src="./static/videos/Variations/clutter_success.gif" alt="clutter-success" width="300px" />
+  </div>
+  <div id="vid-right" style="display: flex; align-items: center; justify-content: center;">
+    <img src="./static/videos/Variations/lighting_success.gif" alt="lighting-success" width="300px" />
+  </div>
+</div>
+
+
+
+<script>
+function openTab(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+</div>
+</section>
+   
+
+
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+        <div class="column is-full-width">
+	<!-- Re-rendering. -->
+        <h2 class="title is-3">Handheld Camera Generalization</h2>
+        <div class="content has-text-justified">
+          <p>
+          Our method can generalize to new camera perspectives zero-shot in the DROID platform. 
+	 </p>
+        </div>
+	<div class="content has-text-centered">
+          <video id="moma-video"
+                 controls
+                 muted
+                 preload
+                 playsinline
+                 width="100%">
+            <source src="./static/videos/handheld.mp4"
+                    type="video/mp4">
+          </video>
+        </div>
+        <!--/ Re-rendering. -->
+	</div>
+      </div>
+    </div>
+    <!--/ Animation. -->
+
+  </div>
+</section>
+
+<!--
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+    <pre><code>@article{park2021nerfies,
+  author    = {Park, Keunhong and Sinha, Utkarsh and Barron, Jonathan T. and Bouaziz, Sofien and Goldman, Dan B and Seitz, Steven M. and Martin-Brualla, Ricardo},
+  title     = {Nerfies: Deformable Neural Radiance Fields},
+  journal   = {ICCV},
+  year      = {2021},
+}</code></pre>
+  </div>
+</section>
+-->
+
+
+</body>
+</html>
