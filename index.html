@@ -199,6 +199,32 @@
     width:49%;
     box-sizing:border-box;
 }
+
+
+#vid-left {
+    float: left;
+    padding: 5px;
+    width: 300px;
+    box-sizing: border-box;
+    margin-left: 10%
+}
+
+#vid-mid {
+    float: left;
+    padding: 5px;
+    width: 300px;
+    box-sizing: border-box;
+    margin-left: 10%
+}
+
+#vid-right {
+    float: left;
+    padding: 5px;
+    width: 300px;
+    box-sizing: border-box;
+    margin-left: 10%
+}
+
   </style>
 
 </head>
@@ -577,8 +603,6 @@
   <button class="tablinks" onclick="openTab(event, 'Invariance Co-Training')">Invariance Co-Training</button>
 </div>
 
-
-
 <div id="Behavior Cloning" class="tabcontent" style="display: flex; justify-content: space-around;">
   <div id="vid-left" style="display: flex; align-items: center; justify-content: center;">
     <img src="./static/videos/Variations/aux-fail.gif" alt="aux-fail" width="300px" />
@@ -590,7 +614,6 @@
     <img src="./static/videos/Variations/lighting_fail.gif" alt="lighting-fail" width="300px" />
   </div>
 </div>
-
 <div id="Invariance Co-Training" class="tabcontent" style="display: flex; justify-content: space-around;">
   <div id="vid-left" style="display: flex; align-items: center; justify-content: center;">
     <img src="./static/videos/Variations/aux-success.gif" alt="aux-success" width="300px" />
@@ -602,7 +625,6 @@
     <img src="./static/videos/Variations/lighting_success.gif" alt="lighting-success" width="300px" />
   </div>
 </div>
-
 
 
 <script>
@@ -645,7 +667,7 @@ document.getElementById("defaultOpen").click();
                  muted
                  preload
                  playsinline
-                 width="100%">
+                 width="80%">
             <source src="./static/videos/handheld.mp4"
                     type="video/mp4">
           </video>
