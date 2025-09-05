@@ -40,191 +40,237 @@
   <script src="./static/js/bulma-slider.min.js"></script>
   <script src="./static/js/index.js"></script>
   <style>
-  body {font-family: Arial;}
+    /* Global Styles */
+    body {
+      font-family: 'Google Sans', 'Noto Sans', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+    }
 
-  /* Style the tab */
-  .tab {
-    overflow: hidden;
-    border: 1px solid #ccc;
-    background-color: #f1f1f1;
-  }
+    /* Enhanced Typography */
+    .title {
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
 
-  /* Style the buttons inside the tab */
-  .tab button {
-    background-color: inherit;
-    float: left;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
-  }
+    .subtitle {
+      font-weight: 400;
+      line-height: 1.8;
+      color: #555;
+      margin-top: 1.5rem;
+    }
 
-  /* Change background color of buttons on hover */
-  .tab button:hover {
-    background-color: #ddd;
-  }
+    .publication-title {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
 
-  /* Create an active/current tablink class */
-  .tab button.active {
-    background-color: #ccc;
-  }
+    /* Enhanced Buttons */
+    .button {
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      font-weight: 500;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
 
-  /* Style the tab content */
-  .tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border: 1px solid #ccc;
-    border-top: none;
-  }
+    .button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    }
 
-  /* Style the close button */
-  .topright {
-    float: right;
-    cursor: pointer;
-    font-size: 28px;
-  }
+    /* Section Styling */
+    .section {
+      padding: 3rem 1.5rem;
+    }
 
-  .topright:hover {color: red;}
+    .hero.teaser {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 2rem 0;
+    }
 
-.gif-row {
-  display: flex;
-  justify-content: center;     /* Center horizontally */
-  align-items: center;         /* Align vertically if heights vary */
-  gap: 30px;                   /* Space between GIFs */
-  flex-wrap: wrap;             /* Allow wrapping on smaller screens */
-  padding: 20px 0;
-}
+    /* Image Enhancements */
+    .teaser-image {
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
 
-.gif-item {
-  width: 300px;
-  height: auto;
-  border-radius: 8px;          /* Optional: rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Optional: subtle shadow */
-}
+    .teaser-image:hover {
+      transform: scale(1.02);
+    }
 
+    /* Video Styling */
+    video {
+      border-radius: 12px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
 
-.video {
-    position: relative;
-    padding-bottom: 35%;
-}
-.video iframe {
-    width: 100%;
-    height: 100%;
-}
+    /* Modern Tab Design */
+    .tab {
+      display: flex;
+      justify-content: center;
+      margin: 2rem 0;
+      background: #fff;
+      border-radius: 16px;
+      padding: 8px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      backdrop-filter: blur(10px);
+    }
 
-.center {
-    margin-left: auto;
-    margin-right: auto;
-    display: block
-}
+    .tab button {
+      background: transparent;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 16px 32px;
+      font-size: 16px;
+      font-weight: 500;
+      color: #666;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
 
-.video-layout {
-    max-width: 500px;
-    border: 1px solid green;
-}
-#vid-left {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-}
-#vid-leftmid {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-}
-#vid-mid {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-}
-#vid-rightmid {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-}
-#vid-right {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-}
+    .tab button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      transition: left 0.3s ease;
+      z-index: -1;
+    }
 
-#vid-onemid {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-    float: left; 
-    margin-right: 40%;
-    margin-left: 40%;
-}
+    .tab button:hover {
+      color: #333;
+      transform: translateY(-2px);
+    }
 
+    .tab button.active {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+    }
 
-#vid-twoleft {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-    float: left; 
-    margin-right: 20%;
-    margin-left: 20%;
-}
-.videoequi {
-    position: relative;
-}
-#vid-tworight {
-    float: left;
-    padding:5px;
-    width:20%;
-    box-sizing:border-box;
-}
-#vid-twoleftequi {
-    float: left;
-    padding:5px;
-    width:49%;
-    box-sizing:border-box;
-    float: left; 
-    margin-right: 1%;
-    margin-left: 1%;
-}
-#vid-tworightequi {
-    float: left;
-    padding:5px;
-    width:49%;
-    box-sizing:border-box;
-}
+    .tab button.active::before {
+      left: 0;
+    }
 
+    /* Tab Content */
+    .tabcontent {
+      display: none;
+      padding: 2rem 0;
+      margin-top: 1rem;
+    }
 
-#vid-left {
-    float: left;
-    padding: 5px;
-    width: 300px;
-    box-sizing: border-box;
-    margin-left: 10%
-}
+    /* GIF Container Improvements */
+    .gif-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 2rem 0;
+    }
 
-#vid-mid {
-    float: left;
-    padding: 5px;
-    width: 300px;
-    box-sizing: border-box;
-    margin-left: 10%
-}
+    .gif-item {
+      width: 300px;
+      height: auto;
+      border-radius: 16px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
 
-#vid-right {
-    float: left;
-    padding: 5px;
-    width: 300px;
-    box-sizing: border-box;
-    margin-left: 10%
-}
+    .gif-item:hover {
+      transform: scale(1.05);
+    }
 
+    /* Video Layout Enhancements */
+    .video {
+      position: relative;
+      padding-bottom: 35%;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    .center {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+    }
+
+    /* Improved Grid Layout for Videos */
+    .video-grid {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+
+    .video-item {
+      flex: 1;
+      min-width: 280px;
+      max-width: 320px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .video-item img:hover {
+      transform: scale(1.05);
+    }
+
+    /* Remove card styling from text sections - keep content clean */
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .tab {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .tab button {
+        width: 100%;
+        margin-bottom: 0.5rem;
+      }
+      
+      .video-grid {
+        flex-direction: column;
+      }
+      
+      .video-item {
+        max-width: 100%;
+      }
+      
+      .section {
+        padding: 2rem 1rem;
+      }
+    }
+
+    /* Remove conflicting legacy styles */
+    #vid-left, #vid-mid, #vid-right {
+      all: unset;
+    }
   </style>
 
 </head>
@@ -283,60 +329,6 @@
 
 
           <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="invariance-cotraining.github.io"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-	     <!--
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2011.12948"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-	     -->
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="invariance-cotraining.github.io"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="invariance-cotraining.github.io"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-             <!-- 
-	     <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a>
-            </div>
-	    -->
           </div>
         </div>
       </div>
@@ -359,11 +351,11 @@
                     type="video/mp4">
           </video>
 	-->
-      <img src="./static/images/teaser.png"
+      <img src="./static/new_images/main_teaser_v2.png"
                  class="teaser-image"
                  alt="Invariance Co-Training"/>
       <h2 class="subtitle has-text-centered">
-	We train a 2D vision encoder that generalizes to new camera viewpoints, lighting conditions, and background clutter that leverages diverse synthetic images, large-scale open-source datasets, and videos of static scenes.
+	<strong>We train a 2D vision encoder that generalizes to new camera viewpoints, lighting conditions, and background clutter</strong> that leverages diverse synthetic images, large-scale open-source datasets, and videos of static scenes.
 	</h2>
     </div>
   </div>
@@ -389,7 +381,7 @@
                  muted
                  preload
                  playsinline
-                 width="40%">
+                 width="70%">
             <source src="./static/videos/main_video.mp4"
                     type="video/mp4">
           </video>
@@ -497,15 +489,18 @@
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
         <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-          <p>
+        <div class="content has-text-justified" style="text-align: left;">
+          <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
 	  Despite recent advancements, many large-scale robotic policies still remain sensitive to key sources of observational variation—such as changes in camera perspective, lighting, and the presence of distractor objects. We posit that the limited generalizability of these models arises from the substantial diversity required to robustly cover these quasistatic axes, coupled with the current scarcity of large-scale robotic datasets that exhibit rich variation across them.
 	  </p>
+	  <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
 	In this work, we propose to systematically examine what robots need to generalize across these challenging axes by introducing two key auxiliary tasks—state similarity and invariance to observational perturbations—applied to both demonstration data and static visual data. We then show that via these auxiliary tasks, leveraging both more-expensive robotic demonstration data and less-expensive, visually rich synthetic images generated from non-physics-based simulation (e.g., Unreal Engine) can lead to substantial increases in generalization to unseen camera viewpoints, lighting configurations, and distractor conditions.
 	</p>
-	<p>
-       Our results demonstrate that co-training on this diverse data improves performance by $18\%$ over existing generative augmentation methods.
-	</p>
+	<div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 1.5rem; border-radius: 12px; color: white; text-align: center; margin-top: 2rem;">
+	  <p style="font-size: 1.2rem; font-weight: 600; margin: 0;">
+       Our results demonstrate that co-training on this diverse data improves performance by <strong style="font-size: 1.4rem;">18%</strong> over existing generative augmentation methods.
+	  </p>
+	</div>
         </div>
       </div>
     </div>
@@ -525,7 +520,7 @@
                     type="video/mp4">
           </video>
       <h2 class="subtitle has-text-centered">
-	We train a 2D vision encoder that generalizes to new camera viewpoints, lighting conditions, and background clutter that leverages diverse synthetic images, large-scale open-source datasets, and videos of static scenes.
+	<strong>Our approach demonstrates robust generalization</strong> across diverse visual conditions by leveraging synthetic imagery, open-source datasets, and static scene videos for enhanced robot vision training.
 	</h2>
     </div>
   </div>
@@ -535,11 +530,11 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <div class="columns is-centered">
+    <div class="columns is-centered has-text-centered">
         <div class="column is-full-width">
 	<!-- Re-rendering. -->
-        <h2 class="title is-3">Invariance Co-Training as Contrastive Learning</h2>
-        <div class="content has-text-justified">
+        <h2 class="title is-3" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 2rem;">Invariance Co-Training as Contrastive Learning</h2>
+        <div class="content has-text-justified" style="text-align: left;">
           <p>
          We propose a contrastive co-training framework where the policy learns representations invariant to observational perturbations (e.g., viewpoint, lighting) while remaining sensitive to task-relevant state and goal changes. By distinguishing between semantically similar and dissimilar (state, goal) pairs across varying observational conditions, the model learns to align representations that matter for control. 
 	 </p>
@@ -558,11 +553,11 @@
 
 <section class="section">
   <div class="container is-max-desktop">
-    <div class="columns is-centered">
+    <div class="columns is-centered has-text-centered">
         <div class="column is-full-width">
 	<!-- Re-rendering. -->
-        <h2 class="title is-3">Example Static Simulation Images</h2>
-        <div class="content has-text-justified">
+        <h2 class="title is-3" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 2rem;">Example Static Simulation Images</h2>
+        <div class="content has-text-justified" style="text-align: left;">
           <p>
 	The image depicts example simulation images from the simpler env, unreal engine, and libero simulators. 
 	</p>
@@ -584,13 +579,28 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Generalization to Novel Observation Variations</h2>
+        <h2 class="title is-3" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 2rem;">Generalization to Novel Observation Variations</h2>
         </div>
       </div>
-        <div class="content has-text-justified">
+        <div class="content has-text-justified" style="text-align: left;">
           <p>
         Experimentally, our invariance co-training approach significantly outperforms baseline Behavioral Cloning, improving average success rates by approximately 40% across key variations. Furthermore, it yields 18\% higher success rates compared to variants relying only on simulation or generative models.  
 	</p>
+        </div>
+        
+        <!-- Main Results Figure -->
+        <div class="columns is-centered" style="margin-top: 3rem;">
+          <div class="column is-full-width">
+            <div class="content has-text-centered">
+              <img src="./static/new_images/main_results.png"
+                   class="teaser-image"
+                   alt="Main Results - Performance comparison across different methods and variations"
+                   style="width: 90%; max-width: 1000px;"/>
+              <p style="margin-top: 1rem; color: #666; font-style: italic;">
+                <strong>Quantitative Results:</strong> Our Invariance Co-Training approach consistently outperforms baseline methods across camera viewpoint changes, lighting variations, and background clutter scenarios.
+              </p>
+            </div>
+          </div>
         </div>
     </div>
 </section>
@@ -603,26 +613,36 @@
   <button class="tablinks" onclick="openTab(event, 'Invariance Co-Training')">Invariance Co-Training</button>
 </div>
 
-<div id="Behavior Cloning" class="tabcontent" style="display: flex; justify-content: space-around;">
-  <div id="vid-left" style="display: flex; align-items: center; justify-content: center;">
-    <img src="./static/videos/Variations/aux-fail.gif" alt="aux-fail" width="300px" />
+<div id="Behavior Cloning" class="tabcontent">
+  <div class="video-grid">
+    <div class="video-item">
+      <img src="./static/videos/Variations/aux-fail.gif" alt="Auxiliary viewpoint failure case" />
+    </div>
+    <div class="video-item">
+      <img src="./static/videos/Variations/clutter_fail.gif" alt="Background clutter failure case" />
+    </div>
+    <div class="video-item">
+      <img src="./static/videos/Variations/lighting_fail.gif" alt="Lighting variation failure case" />
+    </div>
   </div>
-  <div id="vid-mid" style="display: flex; align-items: center; justify-content: center;">
-    <img src="./static/videos/Variations/clutter_fail.gif" alt="clutter-fail" width="300px" />
-  </div>
-  <div id="vid-right" style="display: flex; align-items: center; justify-content: center;">
-    <img src="./static/videos/Variations/lighting_fail.gif" alt="lighting-fail" width="300px" />
+  <div class="content has-text-centered" style="margin-top: 1rem; color: #666;">
+    <p><em>Baseline Behavior Cloning struggles with viewpoint changes, background clutter, and lighting variations</em></p>
   </div>
 </div>
-<div id="Invariance Co-Training" class="tabcontent" style="display: flex; justify-content: space-around;">
-  <div id="vid-left" style="display: flex; align-items: center; justify-content: center;">
-    <img src="./static/videos/Variations/aux-success.gif" alt="aux-success" width="300px" />
+<div id="Invariance Co-Training" class="tabcontent">
+  <div class="video-grid">
+    <div class="video-item">
+      <img src="./static/videos/Variations/aux-success.gif" alt="Auxiliary viewpoint success case" />
+    </div>
+    <div class="video-item">
+      <img src="./static/videos/Variations/clutter_success.gif" alt="Background clutter success case" />
+    </div>
+    <div class="video-item">
+      <img src="./static/videos/Variations/lighting_success.gif" alt="Lighting variation success case" />
+    </div>
   </div>
-  <div id="vid-mid" style="display: flex; align-items: center; justify-content: center;">
-    <img src="./static/videos/Variations/clutter_success.gif" alt="clutter-success" width="300px" />
-  </div>
-  <div id="vid-right" style="display: flex; align-items: center; justify-content: center;">
-    <img src="./static/videos/Variations/lighting_success.gif" alt="lighting-success" width="300px" />
+  <div class="content has-text-centered" style="margin-top: 1rem; color: #666;">
+    <p><em>Our Invariance Co-Training approach successfully handles the same challenging variations</em></p>
   </div>
 </div>
 
@@ -652,11 +672,11 @@ document.getElementById("defaultOpen").click();
 
 <section class="section">
   <div class="container is-max-desktop">
-    <div class="columns is-centered">
+    <div class="columns is-centered has-text-centered">
         <div class="column is-full-width">
 	<!-- Re-rendering. -->
-        <h2 class="title is-3">Handheld Camera Generalization</h2>
-        <div class="content has-text-justified">
+        <h2 class="title is-3" style="color: #667eea; border-bottom: 3px solid #667eea; padding-bottom: 0.5rem; margin-bottom: 2rem;">Handheld Camera Generalization</h2>
+        <div class="content has-text-justified" style="text-align: left;">
           <p>
           Our method can generalize to new camera perspectives zero-shot in the DROID platform. 
 	 </p>
